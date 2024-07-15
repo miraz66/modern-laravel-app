@@ -1,4 +1,5 @@
 import { Link } from "@inertiajs/react";
+import NavLink from "./NavLink";
 
 export default function Navbar({ auth, laravelVersion, phpVersion }) {
   const handleImageError = () => {
@@ -8,6 +9,8 @@ export default function Navbar({ auth, laravelVersion, phpVersion }) {
     document.getElementById("background")?.classList.add("!hidden");
   };
 
+  console.log(route().current("/"));
+
   return (
     <>
       <div className="bg-gray-50 text-black/50 dark:bg-gray-600 dark:text-white/50">
@@ -15,12 +18,9 @@ export default function Navbar({ auth, laravelVersion, phpVersion }) {
           <div className="relative mx-auto w-full max-w-2xl px-6 lg:max-w-7xl">
             <header className="flex justify-between gap-2 py-10">
               <div className="flex lg:justify-center lg:col-start-2">
-                <Link
-                  href="/"
-                  className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                >
+                <NavLink href="/" active={route().current("/")}>
                   Home
-                </Link>
+                </NavLink>
 
                 <Link
                   href="/users"
@@ -39,9 +39,10 @@ export default function Navbar({ auth, laravelVersion, phpVersion }) {
                 <Link
                   href="/logout"
                   method="post"
+                  as="button"
                   className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                 >
-                  Logout
+                  Log Out
                 </Link>
               </div>
 
