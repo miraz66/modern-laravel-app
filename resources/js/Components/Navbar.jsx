@@ -1,7 +1,7 @@
 import { Link } from "@inertiajs/react";
 import NavLink from "./NavLink";
 
-export default function Navbar({ auth, laravelVersion, phpVersion }) {
+export default function Navbar({ auth }) {
   const url = window.location.href;
 
   const handleImageError = () => {
@@ -25,22 +25,25 @@ export default function Navbar({ auth, laravelVersion, phpVersion }) {
       url: "/settings",
     },
     {
-      name: "Log Out",
+      name: "Log out",
       url: "/logout",
     },
   ];
+
+  console.log(auth);
 
   return (
     <>
       <div className="bg-gray-50 text-black/50 dark:bg-gray-600 dark:text-white/50">
         <div className="relative flex flex-col">
           <div className="relative mx-auto w-full max-w-2xl px-6 lg:max-w-7xl">
-            <header className="flex justify-between gap-2 py-10">
+            <header className="flex justify-between items-center gap-2 py-10">
               <div className="flex lg:justify-center lg:col-start-2 gap-3">
                 {NavName.map((item) => {
                   return (
                     <NavLink
                       href={item.url}
+                      key={item.name}
                       active={url.endsWith(item.url)}
                       className="text-lg text-white/80 transition hover:text-white gap-10 "
                     >
@@ -48,6 +51,11 @@ export default function Navbar({ auth, laravelVersion, phpVersion }) {
                     </NavLink>
                   );
                 })}
+              </div>
+
+              <div className="text-lg text-gray-200">
+                Welcome Back,{" "}
+                <span className="uppercase">{auth.user?.name}</span>
               </div>
 
               <nav className="-mx-3 flex justify-between">
