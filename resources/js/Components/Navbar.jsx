@@ -30,8 +30,6 @@ export default function Navbar({ auth }) {
     },
   ];
 
-  console.log(auth);
-
   return (
     <>
       <div className="bg-gray-50 text-black/50 dark:bg-gray-600 dark:text-white/50">
