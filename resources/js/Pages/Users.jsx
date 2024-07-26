@@ -4,6 +4,8 @@ import Navbar from "@/Components/Navbar.jsx";
 export default function Users({ auth }) {
   return (
     <>
+      <Head title="Users" />
+
       <Navbar auth={auth} />
 
       <div>

@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import NavLink from "./NavLink";
 
 export default function Navbar({ auth }) {
