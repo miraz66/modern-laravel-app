@@ -34,8 +34,8 @@ export default function Navbar({ auth }) {
     <>
       <div className="bg-gray-50 text-black/50 dark:bg-gray-600 dark:text-white/50">
         <div className="relative flex flex-col">
-          <div className="relative mx-auto w-full max-w-2xl px-6 lg:max-w-7xl">
-            <header className="flex justify-between items-center gap-2 py-10">
+          <div className="relative mx-auto w-full max-w-2xl lg:max-w-7xl">
+            <header className="flex justify-between items-center gap-2 py-2">
               <div className="flex lg:justify-center lg:col-start-2 gap-3">
                 {NavName.map((item) => {
                   return (

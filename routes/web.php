@@ -15,14 +15,31 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/', function () {
-    return Inertia::render('Home');
-});
+
 
 Route::get('/users', function () {
-    return Inertia::render('Users', [
-        'users' => User::all()
+    $users = User::paginate(10)->through(fn ($user) => [
+        'name' => $user->name,
+        'email' => $user->email,
     ]);
+
+    return Inertia::render('Users', [
+        'users' => $users,
+    ]);
+});
+
+Route::get('/api/users', function () {
+    $users = User::paginate(10)->through(fn ($user) => [
+        'name' => $user->name,
+        'email' => $user->email,
+
+    ]);
+
+    return response()->json($users);
+});
+
+Route::get('/', function () {
+    return Inertia::render('Home');
 });
 
 Route::get('/settings', function () {

@@ -20,7 +20,10 @@
         "vite": "^5.0"
     },
     "dependencies": {
+        "@heroicons/react": "^2.1.5",
         "@inertiajs/progress": "^0.2.7",
+        "alpinejs": "^3.14.1",
+        "clsx": "^2.1.1",
         "nprogress": "^0.2.0"
     }
 }
