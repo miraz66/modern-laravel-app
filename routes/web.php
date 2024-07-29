@@ -6,6 +6,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use function Pest\Laravel\getConnection;
+
 Route::get('/', function () {
     return Inertia::render('Home', [
         'canLogin' => Route::has('login'),
@@ -29,7 +31,10 @@ Route::get('/users', function () {
 });
 
 Route::get('/api/users', function () {
-    $users = User::paginate(10)->through(fn ($user) => [
+    $users = User::query()
+        ->when(request('search'), fn ($query, $search) => $query->where('name', 'like', "%{$search}%"))
+        ->paginate(10);
+    $users = getConnection()->through(fn ($user) => [
         'name' => $user->name,
         'email' => $user->email,
 

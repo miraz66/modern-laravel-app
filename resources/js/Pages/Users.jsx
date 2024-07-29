@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Head } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
 import Navbar from "@/Components/Navbar";
@@ -12,11 +12,18 @@ export default function Users({ auth, users: initialUsers }) {
     initialUsers.current_page < initialUsers.last_page
   );
 
+  const [search, setSearch] = useState("search");
+
+  console.log(search);
+
   const loadMoreUsers = async () => {
     if (loading || !hasMore) return;
 
     setLoading(true);
     try {
+      // Simulate loading delay with timeout
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
       const response = await fetch(`/api/users?page=${page + 1}`);
       const data = await response.json();
       setUsers((prevUsers) => [...prevUsers, ...data.data]);
@@ -37,8 +44,8 @@ export default function Users({ auth, users: initialUsers }) {
 
       <Navbar auth={auth} />
 
-      <div className="overflow-auto max-w-7xl mx-auto border shadow rounded-md p-10 mt-10">
-        <div className="flex justify-between items-center mb-10">
+      <div className="relative overflow-auto max-w-7xl mx-auto border shadow rounded-md p-10 mt-10">
+        <div className="flex justify-between items-center mb-5">
           <div>
             <h5 className="font-semibold text-xl pb-2">Users</h5>
             <p className="font-sm text-gray-700 font-thin">
@@ -50,6 +57,15 @@ export default function Users({ auth, users: initialUsers }) {
             Add user
           </button>
         </div>
+
+        <input
+          className="w-full mb-8 px-4 py-2 border border-gray-300 rounded-md"
+          type="text"
+          onChange={(e) => setSearch(e.target.value)}
+          value={search}
+          placeholder="Search..."
+        />
+
         <table className="w-full table-auto text-sm text-left rtl:text-right">
           <thead className="text-base font-semibold text-gray-800 uppercase border-b border-gray-400">
             <tr className="text-nowrap">
@@ -98,10 +114,25 @@ export default function Users({ auth, users: initialUsers }) {
             ))}
           </tbody>
         </table>
-        {loading && <p>Loading...</p>}
+        {loading && (
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6 animate-spin"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+              />
+            </svg>
+          </div>
+        )}
       </div>
-
-      <div id="observer" />
     </>
   );
 }

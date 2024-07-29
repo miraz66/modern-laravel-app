@@ -3,8 +3,6 @@ import { useRef, useCallback } from "react";
 const useInfiniteScroll = (callback) => {
   const observer = useRef();
 
-  console.log("I am working!");
-
   const lastElementRef = useCallback(
     (node) => {
       if (observer.current) observer.current.disconnect();
