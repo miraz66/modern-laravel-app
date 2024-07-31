@@ -3,10 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use App\Models\User;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
-use function Pest\Laravel\getConnection;
 
 Route::get('/', function () {
     return Inertia::render('Home', [
@@ -20,21 +19,18 @@ Route::get('/', function () {
 
 
 Route::get('/users', function () {
-    $users = User::paginate(10)->through(fn ($user) => [
-        'name' => $user->name,
-        'email' => $user->email,
-    ]);
+    $users = User::query()
+        ->when(Request::input('search'), fn ($query, $search) => $query->where('name', 'like', "%{$search}%"))
+        ->paginate(10);
 
     return Inertia::render('Users', [
         'users' => $users,
     ]);
 });
 
+
 Route::get('/api/users', function () {
-    $users = User::query()
-        ->when(request('search'), fn ($query, $search) => $query->where('name', 'like', "%{$search}%"))
-        ->paginate(10);
-    $users = getConnection()->through(fn ($user) => [
+    $users = User::paginate(10)->through(fn ($user) => [
         'name' => $user->name,
         'email' => $user->email,
 

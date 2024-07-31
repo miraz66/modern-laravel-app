@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Head } from "@inertiajs/react";
+import { Inertia } from "@inertiajs/inertia";
 import TableHeading from "@/Components/TableHeading";
 import Navbar from "@/Components/Navbar";
 import useInfiniteScroll from "@/Utils/useInfiniteScroll"; // Import the custom hook
@@ -11,10 +12,48 @@ export default function Users({ auth, users: initialUsers }) {
   const [hasMore, setHasMore] = useState(
     initialUsers.current_page < initialUsers.last_page
   );
+  const [search, setSearch] = useState("");
 
-  const [search, setSearch] = useState("search");
+  // const [debouncedSearch, setDebouncedSearch] = useState(search);
 
-  console.log(search);
+  useEffect(() => {
+    if (search !== "") {
+      Inertia.get(
+        "/users",
+        { search: search },
+        {
+          preserveState: true,
+        }
+      );
+    }
+  });
+
+  // useEffect(() => {
+  //   const handler = setTimeout(() => {
+  //     setDebouncedSearch(search);
+  //   }, 500); // Debounce time in milliseconds
+
+  //   return () => {
+  //     clearTimeout(handler);
+  //   };
+  // }, [search]);
+
+  // const handleSearchChange = (event) => {
+  //   setSearch(event.target.value);
+  // // };
+
+  // useEffect(() => {
+  //   if (search !== "") {
+  //     router.get(
+  //       "/users",
+  //       { search: search },
+  //       {
+  //         preserveState: true,
+  //         replace: true,
+  //       }
+  //     );
+  //   }
+  // }, [search]);
 
   const loadMoreUsers = async () => {
     if (loading || !hasMore) return;
